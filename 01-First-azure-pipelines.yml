@@ -12,7 +12,7 @@ pool:
 # pipeline --> stage --> Jobs --> Task(Steps)
 
 jobs:
-- job: Job1
+- job: Stage1
   steps:
   - script: echo Job1 - Hello, world changed!
     displayName: 'Run a one-line script'
@@ -22,7 +22,7 @@ jobs:
       echo See https://aka.ms/yaml
       echo more information
     displayName: 'Run a multi-line script'
-- job: Job2
+- job: Stage2
   steps:
   - script: echo Job2!
     displayName: 'Run a one-line script'
