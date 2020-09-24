@@ -21,7 +21,7 @@ stages:
   jobs:
   - job: QADeploy
     steps:
-    - bash: echo $(environment)QADeployJob
+    - bash: echo $(environment)DeployJob
 - stage: DevDeploy
   variables:
     environment: Dev
@@ -29,7 +29,7 @@ stages:
   jobs:
   - job: DevDeploy
     steps:
-    - bash: echo $(environment)DevDeployJob
+    - bash: echo $(environment)DeployJob
 - stage: ProdDeploy
   dependsOn:
   - QADeploy
@@ -39,6 +39,6 @@ stages:
     variables:
       environment: Prod
     steps:
-    - bash: echo $(environment)ProdDeployJob
+    - bash: echo $(environment)DeployJob
 
 
