@@ -14,5 +14,5 @@ steps:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/aws/kubernetes'
     backendServiceAWS: 'aws-terraform-connection'
-    backendAWSBucketName: 'terraform-backend-state-sunilc18-123'
+    backendAWSBucketName: 'my-s3-bucket-sunilc18-123'
     backendAWSKey: 'kubernetes-dev.tfstate'
