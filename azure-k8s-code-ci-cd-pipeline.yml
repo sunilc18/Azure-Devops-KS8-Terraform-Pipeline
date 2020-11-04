@@ -1,0 +1,74 @@
+# Build Docker Image
+# Get K8S files
+# Deploy to K8S cluster.
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: $(Build.BuildId)
+
+stages:
+
+# Stage 1
+# Build Docker Image
+# Publish the K8S file
+
+- stage: Build
+  displayName: Build Image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      displayName: Build an Image
+      inputs:
+        containerRegistry: 'sunilc18-Docker-hub'
+        repository: 'sunilc18/currency-exchange-devops'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: '**/*.yaml'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'manifests'
+        publishLocation: 'Container'
+
+# Stage 2
+# Download the K8S Files
+# Deploy to K8S Cluster with Docker Image
+
+- stage: Deploy
+  displayName: Deploy Image
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'manifests'
+        itemPattern: '**/*.yaml'
+        downloadPath: '$(System.ArtifactsDirectory)'
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'Azure-k8s-connection'
+        namespace: 'default'
+        manifests: '$(System.ArtifactsDirectory)/manifests/configuration/kubernetes/deployment.yaml'
+        containers: 'sunilc18/currency-exchange-devops:$(tag)'
+
+
