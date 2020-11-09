@@ -34,7 +34,7 @@ module "sunilc18-cluster" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "sunilc18-cluster"
   cluster_version = "1.14"
-  subnets         = ["subnet-083f8e57", "subnet-30a25901"] #CHANGE
+  subnets         = ["subnet-083f8e57", "subnet-d2992db4"] #CHANGE
   #subnets = data.aws_subnet_ids.subnets.ids
   vpc_id          = aws_default_vpc.default.id
 
