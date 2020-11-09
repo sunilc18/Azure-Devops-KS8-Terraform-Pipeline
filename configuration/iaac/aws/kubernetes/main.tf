@@ -30,7 +30,7 @@ provider "kubernetes" {
   version                = "~> 1.9"
 }
 
-module "in28minutes-cluster" {
+module "sunilc8-cluster" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "sunilc18-cluster"
   cluster_version = "1.14"
