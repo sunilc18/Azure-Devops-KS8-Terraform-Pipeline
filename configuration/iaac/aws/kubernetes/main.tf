@@ -1,5 +1,5 @@
 # aws --version
-# aws eks --region us-east-1 update-kubeconfig --name in28minutes-cluster
+# aws eks --region us-east-1 update-kubeconfig --name sunilc18-cluster
 # Uses default VPC and Subnet. Create Your Own VPC and Private Subnets for Prod Usage.
 # terraform-backend-state-in28minutes-123
 # AKIA4AHVNOD7OOO6T4KI
@@ -29,11 +29,15 @@ provider "kubernetes" {
   version                = "~> 1.9"
 }
 
-module "in28minutes-cluster" {
+module "sunilc18-cluster" {
   source          = "terraform-aws-modules/eks/aws"
-  cluster_name    = "in28minutes-cluster"
+  cluster_name    = "sunilc18-cluster"
   cluster_version = "1.14"
+<<<<<<< HEAD
   subnets         = ["subnet-3f7b2563", "subnet-4a7d6a45"] #CHANGE
+=======
+  subnets         = ["subnet-083f8e57", "subnet-d2992db4"] #CHANGE
+>>>>>>> d3558adac0c087303bae67dbf647c01aa1ebf638
   #subnets = data.aws_subnet_ids.subnets.ids
   vpc_id          = aws_default_vpc.default.id
 
@@ -43,18 +47,18 @@ module "in28minutes-cluster" {
     {
       instance_type = "t2.micro"
       max_capacity  = 5
-      desired_capacity = 3
-      min_capacity  = 3
+      desired_capacity = 2
+      min_capacity  = 2
     }
   ]
 }
 
 data "aws_eks_cluster" "cluster" {
-  name = module.in28minutes-cluster.cluster_id
+  name = module.sunilc18-cluster.cluster_id
 }
 
 data "aws_eks_cluster_auth" "cluster" {
-  name = module.in28minutes-cluster.cluster_id
+  name = module.sunilc18-cluster.cluster_id
 }
 
 
